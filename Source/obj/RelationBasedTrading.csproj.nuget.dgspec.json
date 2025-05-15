@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\RelationBasedTrading.csproj": {}
+    "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\RelationBasedTrading.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\RelationBasedTrading.csproj": {
+    "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\RelationBasedTrading.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\RelationBasedTrading.csproj",
+        "projectUniqueName": "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\RelationBasedTrading.csproj",
         "projectName": "RelationBasedTrading",
-        "projectPath": "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\RelationBasedTrading.csproj",
+        "projectPath": "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\RelationBasedTrading.csproj",
         "packagesPath": "C:\\Users\\kacey\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\obj\\",
+        "outputPath": "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kacey\\AppData\\Roaming\\NuGet\\NuGet.Config",

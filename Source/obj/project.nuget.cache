@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EDozAS1rPQ8rhyT+QBei5V+s0hZDJ6DZGYanhgvx0M63YG3E262akCoCe1lOlh3jPy3iTsGSYnZrbAuq3+nnFA==",
+  "dgSpecHash": "TrOihxMOv+zISzjFNrymdpUs37Mg0w+RZF2oF5RseLv7PFbNoJ5rv+Ckqh7xcugINlQfTisBLDEmoOTM77cwXw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kacey\\Downloads\\RelationBasedTrading\\Source\\RelationBasedTrading.csproj",
+  "projectFilePath": "C:\\Users\\kacey\\Documents\\GitHub\\Relation-Based-Trading\\Source\\RelationBasedTrading.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kacey\\.nuget\\packages\\krafs.rimworld.ref\\1.5.4409\\krafs.rimworld.ref.1.5.4409.nupkg.sha512",
     "C:\\Users\\kacey\\.nuget\\packages\\lib.harmony\\2.3.6\\lib.harmony.2.3.6.nupkg.sha512"
