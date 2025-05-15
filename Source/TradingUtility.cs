@@ -69,7 +69,7 @@ namespace RelationBasedTrading
                 thingDef.IsLeather ||
                 thingDef.IsPlant ||
                 thingDef.IsRawFood() ||
-                thingDef != ThingDefOf.Silver)
+                thingDef == ThingDefOf.Silver)
                 return true;
 
             return false;
@@ -138,7 +138,7 @@ namespace RelationBasedTrading
                 thingDef.IsLeather ||
                 thingDef.IsPlant ||
                 thingDef.IsRawFood() ||
-                thingDef != ThingDefOf.Silver)
+                thingDef == ThingDefOf.Silver)
             {
                 return TechLevel.Undefined; // Special case for no research items
             }
