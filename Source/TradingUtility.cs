@@ -54,7 +54,7 @@ namespace RelationBasedTrading
                 thingDef.IsStuff ||
                 thingDef.IsPlant ||
                 thingDef.IsRawFood() ||
-                thingDef.ingestible.IsMeal)
+                thingDef.IsIngestible && thingDef.ingestible.IsMeal)
                 return true;
 
             // Check direct research prerequisites
@@ -132,7 +132,7 @@ namespace RelationBasedTrading
                 thingDef.IsStuff ||
                 thingDef.IsPlant ||
                 thingDef.IsRawFood() ||
-                thingDef.ingestible.IsMeal)
+                thingDef.IsIngestible && thingDef.ingestible.IsMeal)
             {
                 return TechLevel.Undefined; // Special case for no research items
             }
