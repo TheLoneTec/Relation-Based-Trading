@@ -32,7 +32,7 @@ namespace RelationBasedTrading
             // Get all thing defs
             foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
             {
-                if (thingDef.tradeability == Tradeability.None || thingDef.tradeability == Tradeability.None)
+                if (thingDef.tradeability == Tradeability.None)
                     continue;
 
                 // Determine tech level from research prerequisites
@@ -52,7 +52,7 @@ namespace RelationBasedTrading
             Log.Message($"[Relation Based Trading] Identified {NoResearchItems.Count} items with no research requirements.");
             Log.Message($"[Relation Based Trading] Identified {techLevelFound} items with techLevel. {researchPrerequisitesFound} items with research. {RecipeFound} items with recipes. {WeaponApparelFound} Weapons or Apparel.");
         }
-
+        /*
         private static bool HasNoResearchRequirements(ThingDef thingDef)
         {
             // Check if it's a natural resource, plant, or animal
@@ -79,9 +79,13 @@ namespace RelationBasedTrading
 
             return false;
         }
-
+        */
         private static TechLevel DetermineTechLevelFromResearch(ThingDef thingDef)
         {
+            //Exceptions
+            if (thingDef == ThingDefOf.Silver)
+                return TechLevel.Undefined;
+
             // Default to Industrial if we can't determine
             TechLevel result = TechLevel.Industrial;
 

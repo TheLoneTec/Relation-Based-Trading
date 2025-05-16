@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RelationBasedTrading")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5a4891057b4155045e06ddb7af612d51f078e64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71c3a30be90dda72bb76d3078190c0f4750714c9")]
 [assembly: System.Reflection.AssemblyProductAttribute("RelationBasedTrading")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RelationBasedTrading")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
