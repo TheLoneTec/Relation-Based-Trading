@@ -16,6 +16,13 @@ namespace RelationBasedTrading
         // Cache for items with no research requirements
         public static readonly HashSet<ThingDef> NoResearchItems = new HashSet<ThingDef>();
 
+        public static int techLevelFound;
+        public static int researchPrerequisitesFound;
+        public static int RecipeFound;
+        public static int WeaponApparelFound;
+        public static int UndefinedFound;
+        public static int DuplicateFound;
+
         static TradingUtility()
         {
             CacheTechLevels();
@@ -39,12 +46,17 @@ namespace RelationBasedTrading
                 // Check if it has no research requirements
                 if (HasNoResearchRequirements(thingDef))
                 {
+                    if (ThingTechLevels.ContainsKey(thingDef))
+                        DuplicateFound++;
                     NoResearchItems.Add(thingDef);
                 }
             }
 
             Log.Message($"[Relation Based Trading] Cached tech levels for {ThingTechLevels.Count} tradeable items.");
             Log.Message($"[Relation Based Trading] Identified {NoResearchItems.Count} items with no research requirements.");
+            Log.Message($"[Relation Based Trading] Identified {techLevelFound} items with techLevel. {researchPrerequisitesFound} items with research. {RecipeFound} items with recipes. {WeaponApparelFound} Weapons or Apparel.");
+            Log.Message($"[Relation Based Trading] Identified {UndefinedFound} items with undefined tech level.");
+            Log.Message($"[Relation Based Trading] Identified {DuplicateFound} items with techLevel added to undefined.");
         }
 
         private static bool HasNoResearchRequirements(ThingDef thingDef)
@@ -82,12 +94,14 @@ namespace RelationBasedTrading
             // First check if it has a valid tech level already
             if (thingDef.techLevel != TechLevel.Undefined && thingDef.techLevel != TechLevel.Animal)
             {
+                techLevelFound++;
                 return thingDef.techLevel;
             }
 
             // Check if it has a research prerequisite directly
             if (thingDef.researchPrerequisites != null && thingDef.researchPrerequisites.Any())
             {
+                researchPrerequisitesFound++;
                 return thingDef.researchPrerequisites.Max(r => r.techLevel);
             }
 
@@ -108,6 +122,7 @@ namespace RelationBasedTrading
                             result = recipeTechLevel;
                     }
                 }
+                RecipeFound++;
                 return result;
             }
 
@@ -119,11 +134,13 @@ namespace RelationBasedTrading
                 {
                     if (thingDef.stuffCategories.Contains(StuffCategoryDefOf.Metallic))
                     {
+                        WeaponApparelFound++;
                         return TechLevel.Industrial;
                     }
                     else if (thingDef.stuffCategories.Contains(StuffCategoryDefOf.Woody) ||
                              thingDef.stuffCategories.Contains(StuffCategoryDefOf.Stony))
                     {
+                        WeaponApparelFound++;
                         return TechLevel.Medieval;
                     }
                 }
@@ -136,6 +153,7 @@ namespace RelationBasedTrading
                 thingDef.IsRawFood() ||
                 thingDef.IsIngestible && thingDef.ingestible.IsMeal)
             {
+                UndefinedFound++;
                 return TechLevel.Undefined; // Special case for no research items
             }
 
