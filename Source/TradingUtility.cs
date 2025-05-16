@@ -20,8 +20,6 @@ namespace RelationBasedTrading
         public static int researchPrerequisitesFound;
         public static int RecipeFound;
         public static int WeaponApparelFound;
-        public static int UndefinedFound;
-        public static int DuplicateFound;
 
         static TradingUtility()
         {
@@ -53,7 +51,6 @@ namespace RelationBasedTrading
             Log.Message($"[Relation Based Trading] Cached tech levels for {ThingTechLevels.Count} tradeable items.");
             Log.Message($"[Relation Based Trading] Identified {NoResearchItems.Count} items with no research requirements.");
             Log.Message($"[Relation Based Trading] Identified {techLevelFound} items with techLevel. {researchPrerequisitesFound} items with research. {RecipeFound} items with recipes. {WeaponApparelFound} Weapons or Apparel.");
-            Log.Message($"[Relation Based Trading] Identified {UndefinedFound} items with undefined tech level.");
         }
 
         private static bool HasNoResearchRequirements(ThingDef thingDef)
@@ -177,7 +174,6 @@ namespace RelationBasedTrading
                 thingDef.IsRawFood() ||
                 thingDef.IsIngestible && thingDef.ingestible.IsMeal)
             {
-                UndefinedFound++;
                 return TechLevel.Undefined; // Special case for no research items
             }
 
