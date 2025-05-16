@@ -46,8 +46,6 @@ namespace RelationBasedTrading
                 // Check if it has no research requirements
                 if (HasNoResearchRequirements(thingDef))
                 {
-                    if (ThingTechLevels.ContainsKey(thingDef))
-                        DuplicateFound++;
                     NoResearchItems.Add(thingDef);
                 }
             }
@@ -56,7 +54,6 @@ namespace RelationBasedTrading
             Log.Message($"[Relation Based Trading] Identified {NoResearchItems.Count} items with no research requirements.");
             Log.Message($"[Relation Based Trading] Identified {techLevelFound} items with techLevel. {researchPrerequisitesFound} items with research. {RecipeFound} items with recipes. {WeaponApparelFound} Weapons or Apparel.");
             Log.Message($"[Relation Based Trading] Identified {UndefinedFound} items with undefined tech level.");
-            Log.Message($"[Relation Based Trading] Identified {DuplicateFound} items with techLevel added to undefined.");
         }
 
         private static bool HasNoResearchRequirements(ThingDef thingDef)
@@ -103,6 +100,17 @@ namespace RelationBasedTrading
             {
                 researchPrerequisitesFound++;
                 return thingDef.researchPrerequisites.Max(r => r.techLevel);
+            } 
+            if (thingDef.recipeMaker != null)
+            {
+                if (thingDef.recipeMaker.researchPrerequisite != null)
+                {
+                    return thingDef.recipeMaker.researchPrerequisite.techLevel;
+                }
+                else if (!thingDef.recipeMaker.researchPrerequisites.NullOrEmpty())
+                {
+                    return thingDef.recipeMaker.researchPrerequisites.Max(r => r.techLevel);
+                }
             }
 
             // Check recipes that make this thing
@@ -121,6 +129,12 @@ namespace RelationBasedTrading
                         if (recipeTechLevel > result)
                             result = recipeTechLevel;
                     }
+                    else if (recipe.researchPrerequisites.NullOrEmpty())
+                    {
+                        TechLevel recipeTechLevel = recipe.researchPrerequisites.Max(r => r.techLevel);
+                        if (recipeTechLevel > result)
+                            result = recipeTechLevel;
+                    }
                 }
                 RecipeFound++;
                 return result;
@@ -132,18 +146,28 @@ namespace RelationBasedTrading
                 // Try to guess based on stuff categories or material
                 if (thingDef.stuffCategories != null)
                 {
-                    if (thingDef.stuffCategories.Contains(StuffCategoryDefOf.Metallic))
+                    if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOfLocal.RareMetallic || t == StuffCategoryDefOfLocal.Precious || t == StuffCategoryDefOfLocal.HF))
+                    {
+                        WeaponApparelFound++;
+                        return TechLevel.Spacer;
+                    }
+                    if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Metallic || t == StuffCategoryDefOfLocal.SolidMetallic || t == StuffCategoryDefOfLocal.HeavyMetallic))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Industrial;
                     }
-                    else if (thingDef.stuffCategories.Contains(StuffCategoryDefOf.Woody) ||
-                             thingDef.stuffCategories.Contains(StuffCategoryDefOf.Stony))
+                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Fabric || t == StuffCategoryDefOf.Leathery || t == StuffCategoryDefOfLocal.StrongMetallic || t == StuffCategoryDefOfLocal.RuggedMetallic))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Medieval;
                     }
+                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Woody || t == StuffCategoryDefOf.Stony))
+                    {
+                        WeaponApparelFound++;
+                        return TechLevel.Neolithic;
+                    }
                 }
+                
             }
 
             // Natural resources, plants, animals, etc. are considered no research
@@ -221,6 +245,23 @@ namespace RelationBasedTrading
             // Excellent relations (75+)
             // Ultra tech and below
             return techLevel <= TechLevel.Ultra;
+        }
+    }
+
+    [DefOf]
+    public static class StuffCategoryDefOfLocal
+    {
+        public static StuffCategoryDef RareMetallic;
+        public static StuffCategoryDef SolidMetallic;
+        public static StuffCategoryDef HeavyMetallic;
+        public static StuffCategoryDef StrongMetallic;
+        public static StuffCategoryDef RuggedMetallic;
+        public static StuffCategoryDef Precious;
+        public static StuffCategoryDef HF;
+
+        static StuffCategoryDefOfLocal()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(StuffCategoryDefOfLocal));
         }
     }
 }
