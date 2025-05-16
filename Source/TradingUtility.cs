@@ -49,18 +49,6 @@ namespace RelationBasedTrading
 
         private static bool HasNoResearchRequirements(ThingDef thingDef)
         {
-            // Check direct research prerequisites
-            if (thingDef.researchPrerequisites != null && thingDef.researchPrerequisites.Any())
-                return false;
-
-            // Check recipes that make this thing
-            List<RecipeDef> recipes = DefDatabase<RecipeDef>.AllDefs
-                .Where(r => r.products != null && r.products.Any(p => p.thingDef == thingDef))
-                .ToList();
-
-            if (recipes.Any(r => r.researchPrerequisite != null))
-                return false;
-
             // Check if it's a natural resource, plant, or animal
             if (thingDef.plant != null ||
                 thingDef.race != null ||
@@ -68,9 +56,20 @@ namespace RelationBasedTrading
                 thingDef.IsMeat ||
                 thingDef.IsLeather ||
                 thingDef.IsPlant ||
-                thingDef.IsRawFood() ||
-                thingDef == ThingDefOf.Silver)
+                thingDef.IsRawFood())
                 return true;
+
+            // Check direct research prerequisites
+            if (thingDef.researchPrerequisites.NullOrEmpty())
+            {
+                // Check recipes that make this thing
+                List<RecipeDef> recipes = DefDatabase<RecipeDef>.AllDefs
+                    .Where(r => r.products != null && r.products.Any(p => p.thingDef == thingDef))
+                    .ToList();
+
+                if (recipes.Any(r => r.researchPrerequisite != null))
+                    return false;
+            }
 
             return false;
         }
@@ -137,8 +136,7 @@ namespace RelationBasedTrading
                 thingDef.IsMeat ||
                 thingDef.IsLeather ||
                 thingDef.IsPlant ||
-                thingDef.IsRawFood() ||
-                thingDef == ThingDefOf.Silver)
+                thingDef.IsRawFood())
             {
                 return TechLevel.Undefined; // Special case for no research items
             }
