@@ -44,7 +44,7 @@ namespace RelationBasedTrading
                 ThingTechLevels[thingDef] = techLevel;
 
                 // Check if it has no research requirements
-                if (HasNoResearchRequirements(thingDef))
+                if (techLevel == TechLevel.Undefined /*HasNoResearchRequirements(thingDef)*/)
                 {
                     NoResearchItems.Add(thingDef);
                 }
@@ -129,7 +129,7 @@ namespace RelationBasedTrading
                         if (recipeTechLevel > result)
                             result = recipeTechLevel;
                     }
-                    else if (recipe.researchPrerequisites.NullOrEmpty())
+                    else if (!recipe.researchPrerequisites.NullOrEmpty())
                     {
                         TechLevel recipeTechLevel = recipe.researchPrerequisites.Max(r => r.techLevel);
                         if (recipeTechLevel > result)
