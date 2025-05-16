@@ -161,7 +161,7 @@ namespace RelationBasedTrading
                         WeaponApparelFound++;
                         return TechLevel.Medieval;
                     }
-                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Woody || t == StuffCategoryDefOf.Stony))
+                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Woody || t == StuffCategoryDefOf.Stony || t == StuffCategoryDefOfLocal.WoodLogs))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Neolithic;
@@ -258,6 +258,7 @@ namespace RelationBasedTrading
         public static StuffCategoryDef RuggedMetallic;
         public static StuffCategoryDef Precious;
         public static StuffCategoryDef HF;
+        public static StuffCategoryDef WoodLogs;
 
         static StuffCategoryDefOfLocal()
         {
