@@ -50,13 +50,11 @@ namespace RelationBasedTrading
         private static bool HasNoResearchRequirements(ThingDef thingDef)
         {
             // Check if it's a natural resource, plant, or animal
-            if (thingDef.plant != null ||
-                thingDef.race != null ||
+            if (thingDef.race != null ||
                 thingDef.IsStuff ||
-                thingDef.IsMeat ||
-                thingDef.IsLeather ||
                 thingDef.IsPlant ||
-                thingDef.IsRawFood())
+                thingDef.IsRawFood() ||
+                thingDef.ingestible.IsMeal)
                 return true;
 
             // Check direct research prerequisites
@@ -130,13 +128,11 @@ namespace RelationBasedTrading
             }
 
             // Natural resources, plants, animals, etc. are considered no research
-            if (thingDef.plant != null ||
-                thingDef.race != null ||
+            if (thingDef.race != null ||
                 thingDef.IsStuff ||
-                thingDef.IsMeat ||
-                thingDef.IsLeather ||
                 thingDef.IsPlant ||
-                thingDef.IsRawFood())
+                thingDef.IsRawFood() ||
+                thingDef.ingestible.IsMeal)
             {
                 return TechLevel.Undefined; // Special case for no research items
             }
