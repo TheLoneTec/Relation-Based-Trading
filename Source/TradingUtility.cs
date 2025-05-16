@@ -67,6 +67,8 @@ namespace RelationBasedTrading
 
                 if (recipes.Any(r => r.researchPrerequisite != null))
                     return false;
+
+                return true;
             }
 
             return false;
