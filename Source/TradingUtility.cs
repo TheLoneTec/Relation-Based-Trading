@@ -16,6 +16,8 @@ namespace RelationBasedTrading
         // Cache for items with no research requirements
         public static readonly HashSet<ThingDef> NoResearchItems = new HashSet<ThingDef>();
 
+        public static bool HSKActive = false;
+
         public static int techLevelFound;
         public static int researchPrerequisitesFound;
         public static int RecipeFound;
@@ -147,22 +149,22 @@ namespace RelationBasedTrading
                 // Try to guess based on stuff categories or material
                 if (thingDef.stuffCategories != null)
                 {
-                    if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOfLocal.RareMetallic || t == StuffCategoryDefOfLocal.Precious || t == StuffCategoryDefOfLocal.HF))
+                    if (HSKActive && thingDef.stuffCategories.Any(t => t == StuffCategoryDefOfLocal.RareMetallic || t == StuffCategoryDefOfLocal.Precious || t == StuffCategoryDefOfLocal.HF))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Spacer;
                     }
-                    if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Metallic || t == StuffCategoryDefOfLocal.SolidMetallic || t == StuffCategoryDefOfLocal.HeavyMetallic))
+                    if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Metallic || (HSKActive && t == StuffCategoryDefOfLocal.SolidMetallic) || (HSKActive && t == StuffCategoryDefOfLocal.HeavyMetallic)))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Industrial;
                     }
-                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Fabric || t == StuffCategoryDefOf.Leathery || t == StuffCategoryDefOfLocal.StrongMetallic || t == StuffCategoryDefOfLocal.RuggedMetallic))
+                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Fabric || t == StuffCategoryDefOf.Leathery || (HSKActive && t == StuffCategoryDefOfLocal.StrongMetallic) || (HSKActive && t == StuffCategoryDefOfLocal.RuggedMetallic)))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Medieval;
                     }
-                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Woody || t == StuffCategoryDefOf.Stony || t == StuffCategoryDefOfLocal.WoodLogs))
+                    else if (thingDef.stuffCategories.Any(t => t == StuffCategoryDefOf.Woody || t == StuffCategoryDefOf.Stony || (HSKActive && t == StuffCategoryDefOfLocal.WoodLogs)))
                     {
                         WeaponApparelFound++;
                         return TechLevel.Neolithic;
@@ -251,13 +253,21 @@ namespace RelationBasedTrading
     [DefOf]
     public static class StuffCategoryDefOfLocal
     {
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef RareMetallic;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef SolidMetallic;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef HeavyMetallic;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef StrongMetallic;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef RuggedMetallic;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef Precious;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef HF;
+        [MayRequireAnyOf("skyarkhangel.HSK")]
         public static StuffCategoryDef WoodLogs;
 
         static StuffCategoryDefOfLocal()
