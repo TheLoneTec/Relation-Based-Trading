@@ -12,6 +12,11 @@ namespace RelationBasedTrading
 
             var harmony = new Harmony("thelonetec.relationbasedtrading");
             harmony.PatchAll();
+
+            Log.Message("[Relation Based Trading] Initialized and patched trader stock generation.");
+
+            LongEventHandler.QueueLongEvent(TradingUtility.CacheTechLevels, "CacheTechLevels", false, null);
         }
+
     }
 }

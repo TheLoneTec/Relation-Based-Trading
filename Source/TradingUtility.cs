@@ -25,11 +25,11 @@ namespace RelationBasedTrading
 
         static TradingUtility()
         {
-            CacheTechLevels();
-            Log.Message("[Relation Based Trading] Initialized and patched trader stock generation.");
+            //CacheTechLevels();
+            //Log.Message("[Relation Based Trading] Initialized and patched trader stock generation.");
         }
 
-        private static void CacheTechLevels()
+        public static void CacheTechLevels()
         {
             // Get all thing defs
             foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
