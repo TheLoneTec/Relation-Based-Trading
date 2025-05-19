@@ -189,7 +189,7 @@ namespace RelationBasedTrading
                 thingDef.IsStuff ||
                 thingDef.IsPlant ||
                 thingDef.IsRawFood() ||
-                thingDef.IsIngestible && thingDef.ingestible.IsMeal)
+                (thingDef.IsIngestible && thingDef.ingestible.IsMeal))
             {
                 return TechLevel.Undefined; // Special case for no research items
             }
