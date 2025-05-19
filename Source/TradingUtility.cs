@@ -84,9 +84,20 @@ namespace RelationBasedTrading
         */
         private static TechLevel DetermineTechLevelFromResearch(ThingDef thingDef)
         {
-            //Exceptions
+            //Exception for silver
             if (thingDef == ThingDefOf.Silver)
                 return TechLevel.Undefined;
+
+            if (thingDef.deepCommonality > 0)
+            {
+                switch (thingDef.deepCommonality)
+                {
+                    case float i when i >= 1.5 : return TechLevel.Undefined;
+                    case float i when i >= 1 : return TechLevel.Medieval;
+                    case float i when i >= 0.5: return TechLevel.Industrial;
+                    case float i when i >= 0: return TechLevel.Spacer;
+                }
+            }
 
             // Default to Industrial if we can't determine
             TechLevel result = TechLevel.Industrial;
