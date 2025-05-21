@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Relation Based Trading</name>
-  <author>RimWorldModder</author>
+  <author>TheLoneTec</author>
   <supportedVersions>
+	<li>1.4</li>
     <li>1.5</li>
   </supportedVersions>
   <packageId>thelonetec.relationbasedtrading</packageId>
-  <description>Adjusts trader stock based on faction relations. Better relations unlock higher tech level items.</description>
+  <description>Adjusts trader stock based on faction relations. Better relations unlock higher tech level items. \n With help of Sonalt and Lightwave.</description>
 </ModMetaData>
