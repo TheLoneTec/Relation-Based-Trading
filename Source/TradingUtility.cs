@@ -197,7 +197,7 @@ namespace RelationBasedTrading
             return result;
         }
 
-        public static bool ShouldIncludeItemBasedOnRelationship(Thing thing, Faction faction)
+        public static bool ShouldIncludeItemBasedOnRelationship(ThingDef def, Faction faction)
         {
             if (faction == null || faction.IsPlayer)
                 return true;
@@ -210,11 +210,11 @@ namespace RelationBasedTrading
                 return false;
 
             // Check if it's a no-research item (always available)
-            if (NoResearchItems.Contains(thing.def))
+            if (NoResearchItems.Contains(def))
                 return true;
 
             // Get the tech level of the item
-            if (!ThingTechLevels.TryGetValue(thing.def, out TechLevel techLevel))
+            if (!ThingTechLevels.TryGetValue(def, out TechLevel techLevel))
             {
                 // If not in cache, allow it by default
                 return true;
@@ -234,21 +234,21 @@ namespace RelationBasedTrading
                 return techLevel <= TechLevel.Neolithic;
             }
 
-            // Neutral relations (5 to 25)
-            if (goodwill < 25)
+            // Neutral relations (5 to 35)
+            if (goodwill < 35)
             {
                 // Medieval tech and below
                 return techLevel <= TechLevel.Medieval;
             }
 
-            // Good relations (25 to 50)
-            if (goodwill < 50)
+            // Good relations (35 to 55)
+            if (goodwill < 55)
             {
                 // Industrial tech and below
                 return techLevel <= TechLevel.Industrial;
             }
 
-            // Very good relations (50 to 75)
+            // Very good relations (55 to 75)
             if (goodwill < 75)
             {
                 // Spacer tech and below
