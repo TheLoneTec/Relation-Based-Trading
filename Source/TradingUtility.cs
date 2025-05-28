@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace RelationBasedTrading
@@ -22,6 +23,16 @@ namespace RelationBasedTrading
         public static int researchPrerequisitesFound;
         public static int RecipeFound;
         public static int WeaponApparelFound;
+
+        public static Dictionary<TechLevel, RangeInt> scale = new Dictionary<TechLevel, RangeInt>()
+        {
+            { TechLevel.Undefined, new RangeInt(-75,-24) },
+            { TechLevel.Neolithic, new RangeInt(-25,4) },
+            { TechLevel.Medieval, new RangeInt(5,34) },
+            { TechLevel.Industrial, new RangeInt(35,54) },
+            { TechLevel.Spacer, new RangeInt(55,74) },
+            { TechLevel.Ultra, new RangeInt(75,100) }
+        };
 
         static TradingUtility()
         {
@@ -220,6 +231,15 @@ namespace RelationBasedTrading
                 return true;
             }
 
+            KeyValuePair<TechLevel, RangeInt> pair = scale.FirstOrFallback(tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(goodwill),scale.First());
+
+            if (techLevel <= pair.Key)
+            {
+                return true;
+            }
+
+            return false;
+            /*
             // Very poor relations (-75 to -25)
             if (goodwill < -25)
             {
@@ -258,6 +278,7 @@ namespace RelationBasedTrading
             // Excellent relations (75+)
             // Ultra tech and below
             return techLevel <= TechLevel.Ultra;
+            */
         }
     }
 

@@ -3,7 +3,10 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
+using UnityEngine;
 using Verse;
+using Verse.Noise;
 
 namespace RelationBasedTrading
 {
@@ -58,6 +61,33 @@ namespace RelationBasedTrading
                 return __result;
 
             return TradingUtility.ShouldIncludeItemBasedOnRelationship(td, faction);
+        }
+    }
+
+    // Additional patch for Faction.TryAffectGoodwillWith
+    [HarmonyPatch(typeof(Faction), "TryAffectGoodwillWith")]
+    public static class Faction_TryAffectGoodwillWith_Patch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(Faction other,
+      int goodwillChange)
+        {
+            KeyValuePair<TechLevel, RangeInt> before = TradingUtility.scale.FirstOrFallback(
+                tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer) - goodwillChange),
+                TradingUtility.scale.First());
+
+            KeyValuePair<TechLevel, RangeInt> after = TradingUtility.scale.FirstOrFallback(
+                tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer)),
+                TradingUtility.scale.First());
+
+            if (before.Key != after.Key)
+            {
+                foreach (Settlement settlement in Find.WorldObjects.Settlements.Where(s => s.Faction == other))
+                {
+                    settlement.trader.TryDestroyStock();
+                }
+            }
+
         }
     }
 }
