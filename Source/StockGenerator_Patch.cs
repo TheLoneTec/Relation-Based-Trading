@@ -50,16 +50,14 @@ namespace RelationBasedTrading
     public static class TraderKindDef_WillTrade_Patch
     {
         [HarmonyPostfix]
-        public static bool Postfix(ref bool __result, ThingDef td, TraderKindDef __instance)
+        public static bool Postfix(bool __result, ThingDef td, TraderKindDef __instance)
         {
             Faction faction = FactionUtility.DefaultFactionFrom(__instance.faction);
 
             if (!__result || faction == null || faction.IsPlayer)
                 return __result;
 
-            __result = TradingUtility.ShouldIncludeItemBasedOnRelationship(td,faction);
-
-            return false;
+            return TradingUtility.ShouldIncludeItemBasedOnRelationship(td, faction);
         }
     }
 }
