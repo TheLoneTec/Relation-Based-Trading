@@ -83,11 +83,11 @@ namespace RelationBasedTrading
             int goodwill = other.GoodwillWith(Faction.OfPlayer);
 
             KeyValuePair<TechLevel, RangeInt> before = TradingUtility.scale.FirstOrFallback(
-                tech => tech.Value.start <= goodwill - goodwillChange && goodwill - goodwillChange <= tech.Value.end,
+                tech => tech.Value.start <= goodwill - goodwillChange && goodwill - goodwillChange <= tech.Value.length,
                 TradingUtility.scale.First());
 
             KeyValuePair<TechLevel, RangeInt> after = TradingUtility.scale.FirstOrFallback(
-                tech => tech.Value.start <= goodwill && goodwill <= tech.Value.end,
+                tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length,
                 TradingUtility.scale.First());
 
             //Log.Message("TechLevel allowed changed from: " + before.Key.ToString() + " to " + after.Key.ToString());
