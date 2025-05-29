@@ -23,6 +23,8 @@ namespace RelationBasedTrading
         public static int researchPrerequisitesFound;
         public static int RecipeFound;
         public static int WeaponApparelFound;
+        public static int itemsRejected;
+        public static int itemsAccepted;
 
         public static Dictionary<TechLevel, RangeInt> scale = new Dictionary<TechLevel, RangeInt>()
         {
@@ -31,13 +33,19 @@ namespace RelationBasedTrading
             { TechLevel.Medieval, new RangeInt(5,34) },
             { TechLevel.Industrial, new RangeInt(35,54) },
             { TechLevel.Spacer, new RangeInt(55,74) },
-            { TechLevel.Ultra, new RangeInt(75,100) }
+            { TechLevel.Ultra, new RangeInt(75,1000) }
         };
 
         static TradingUtility()
         {
             //CacheTechLevels();
             //Log.Message("[Relation Based Trading] Initialized and patched trader stock generation.");
+            /*
+            foreach (var item in scale)
+            {
+                Log.Message($"[Relation Based Trading] : TechLevel - {item.Key} : {item.Value.start} - {item.Value.length}");
+            }
+            */
         }
 
         public static void CacheTechLevels()
@@ -231,13 +239,16 @@ namespace RelationBasedTrading
                 return true;
             }
 
-            KeyValuePair<TechLevel, RangeInt> pair = scale.FirstOrFallback(tech => tech.Value.start >= goodwill && goodwill <= tech.Value.length,scale.First());
+            KeyValuePair<TechLevel, RangeInt> pair = scale.FirstOrFallback(tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length,scale.First());
 
             if (techLevel <= pair.Key)
             {
+                //if (debug)
+                //    TradingUtility.itemsAccepted++;
                 return true;
             }
-
+            //if (debug)
+            //    TradingUtility.itemsRejected++;
             return false;
             /*
             // Very poor relations (-75 to -25)

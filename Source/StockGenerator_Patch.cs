@@ -27,7 +27,10 @@ namespace RelationBasedTrading
             Faction faction,
             StockGenerator __instance)
         {
-            Log.Message($"Calling postfix for {__instance.GetType().FullName}:Postfix({forTile},{faction})");
+            int goodwill = faction.GoodwillWith(Faction.OfPlayer);
+            KeyValuePair<TechLevel, RangeInt> pair = TradingUtility.scale.FirstOrFallback(tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length, TradingUtility.scale.First());
+
+            //Log.Message($"Calling postfix for {__instance.GetType().FullName}:Postfix({forTile},{faction}) - Expected up to:{pair.Key}");
             if (faction == null || faction.IsPlayer)
             {
                 foreach (Thing thing in __result)
@@ -45,6 +48,9 @@ namespace RelationBasedTrading
                     yield return thing;
                 }
             }
+            //Log.Message("Items Accepted: " + TradingUtility.itemsAccepted + ". Items Rejected: " + TradingUtility.itemsRejected);
+            //TradingUtility.itemsAccepted = 0;
+            //TradingUtility.itemsRejected = 0;
         }
     }
 
@@ -72,24 +78,26 @@ namespace RelationBasedTrading
         public static void Postfix(Faction other,
       int goodwillChange)
         {
-            Log.Message("Faction_TryAffectGoodwillWith_Patch Entered");
+            //Log.Message("Faction_TryAffectGoodwillWith_Patch Entered");
+
+            int goodwill = other.GoodwillWith(Faction.OfPlayer);
 
             KeyValuePair<TechLevel, RangeInt> before = TradingUtility.scale.FirstOrFallback(
-                tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer) - goodwillChange),
+                tech => tech.Value.start <= goodwill - goodwillChange && goodwill - goodwillChange <= tech.Value.end,
                 TradingUtility.scale.First());
 
             KeyValuePair<TechLevel, RangeInt> after = TradingUtility.scale.FirstOrFallback(
-                tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer)),
+                tech => tech.Value.start <= goodwill && goodwill <= tech.Value.end,
                 TradingUtility.scale.First());
 
-            Log.Message("TechLevel allowed changed from: " + before.Key.ToString() + " to " + after.Key.ToString());
+            //Log.Message("TechLevel allowed changed from: " + before.Key.ToString() + " to " + after.Key.ToString());
 
             if (before.Key != after.Key)
             {
-                Log.Message("Relation changed enough to be a different tech level");
+                //Log.Message("Relation changed enough to be a different tech level");
                 foreach (Settlement settlement in Find.WorldObjects.Settlements.Where(s => s.Faction == other))
                 {
-                    Log.Message("Clearing Stock for : " + settlement.Name);
+                    //Log.Message("Clearing Stock for : " + settlement.Name);
                     settlement.trader.TryDestroyStock();
                 }
             }
