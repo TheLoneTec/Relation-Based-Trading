@@ -231,7 +231,7 @@ namespace RelationBasedTrading
                 return true;
             }
 
-            KeyValuePair<TechLevel, RangeInt> pair = scale.FirstOrFallback(tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(goodwill),scale.First());
+            KeyValuePair<TechLevel, RangeInt> pair = scale.FirstOrFallback(tech => tech.Value.start >= goodwill && goodwill <= tech.Value.length,scale.First());
 
             if (techLevel <= pair.Key)
             {

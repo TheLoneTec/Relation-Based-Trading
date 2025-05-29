@@ -72,6 +72,8 @@ namespace RelationBasedTrading
         public static void Postfix(Faction other,
       int goodwillChange)
         {
+            Log.Message("Faction_TryAffectGoodwillWith_Patch Entered");
+
             KeyValuePair<TechLevel, RangeInt> before = TradingUtility.scale.FirstOrFallback(
                 tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer) - goodwillChange),
                 TradingUtility.scale.First());
@@ -80,10 +82,14 @@ namespace RelationBasedTrading
                 tech => Enumerable.Range(tech.Value.start, tech.Value.end).Contains(other.GoodwillWith(Faction.OfPlayer)),
                 TradingUtility.scale.First());
 
+            Log.Message("TechLevel allowed changed from: " + before.Key.ToString() + " to " + after.Key.ToString());
+
             if (before.Key != after.Key)
             {
+                Log.Message("Relation changed enough to be a different tech level");
                 foreach (Settlement settlement in Find.WorldObjects.Settlements.Where(s => s.Faction == other))
                 {
+                    Log.Message("Clearing Stock for : " + settlement.Name);
                     settlement.trader.TryDestroyStock();
                 }
             }
