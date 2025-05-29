@@ -23,8 +23,8 @@ namespace RelationBasedTrading
         public static int researchPrerequisitesFound;
         public static int RecipeFound;
         public static int WeaponApparelFound;
-        public static int itemsRejected;
-        public static int itemsAccepted;
+        //public static int itemsRejected;
+        //public static int itemsAccepted;
 
         public static Dictionary<TechLevel, RangeInt> scale = new Dictionary<TechLevel, RangeInt>()
         {
