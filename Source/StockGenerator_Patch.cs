@@ -79,6 +79,8 @@ namespace RelationBasedTrading
       int goodwillChange)
         {
             //Log.Message("Faction_TryAffectGoodwillWith_Patch Entered");
+            if (other == null || other.IsPlayer)
+                return;
 
             int goodwill = other.GoodwillWith(Faction.OfPlayer);
 
