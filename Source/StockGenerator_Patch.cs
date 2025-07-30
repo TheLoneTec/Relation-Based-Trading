@@ -31,7 +31,7 @@ namespace RelationBasedTrading
             KeyValuePair<TechLevel, RangeInt> pair = TradingUtility.scale.FirstOrFallback(tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length, TradingUtility.scale.First());
 
             //Log.Message($"Calling postfix for {__instance.GetType().FullName}:Postfix({forTile},{faction}) - Expected up to:{pair.Key}");
-            if (faction == null || faction.IsPlayer)
+            if (faction == null || faction.IsPlayer || faction.temporary)
             {
                 foreach (Thing thing in __result)
                 {
@@ -79,7 +79,7 @@ namespace RelationBasedTrading
       int goodwillChange)
         {
             //Log.Message("Faction_TryAffectGoodwillWith_Patch Entered");
-            if (other == null || other.IsPlayer)
+            if (other == null || other.IsPlayer || other.temporary)
                 return;
 
             int goodwill = other.GoodwillWith(Faction.OfPlayer);

@@ -218,7 +218,7 @@ namespace RelationBasedTrading
 
         public static bool ShouldIncludeItemBasedOnRelationship(ThingDef def, Faction faction)
         {
-            if (faction == null || faction.IsPlayer)
+            if (faction == null || faction.IsPlayer || faction.temporary)
                 return true;
 
             // Get faction goodwill
