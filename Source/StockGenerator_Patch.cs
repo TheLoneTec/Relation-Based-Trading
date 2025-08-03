@@ -27,8 +27,6 @@ namespace RelationBasedTrading
             Faction faction,
             StockGenerator __instance)
         {
-            int goodwill = faction.GoodwillWith(Faction.OfPlayer);
-            KeyValuePair<TechLevel, RangeInt> pair = TradingUtility.scale.FirstOrFallback(tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length, TradingUtility.scale.First());
 
             //Log.Message($"Calling postfix for {__instance.GetType().FullName}:Postfix({forTile},{faction}) - Expected up to:{pair.Key}");
             if (faction == null || faction.IsPlayer || faction.temporary)
@@ -39,6 +37,8 @@ namespace RelationBasedTrading
                 }
                 yield break;
             }
+            //int goodwill = faction.GoodwillWith(Faction.OfPlayer);
+            //KeyValuePair<TechLevel, RangeInt> pair = TradingUtility.scale.FirstOrFallback(tech => tech.Value.start <= goodwill && goodwill <= tech.Value.length, TradingUtility.scale.First());
 
             // Filter the generated things based on faction relationship
             foreach (Thing thing in __result)
@@ -62,7 +62,7 @@ namespace RelationBasedTrading
         public static bool Postfix(bool __result, ThingDef td, TraderKindDef __instance)
         {
             Faction faction = FactionUtility.DefaultFactionFrom(__instance.faction);
-
+            Log.Message("Faction is: " + (faction != null ?  faction.def.defName : "Null"));
             if (!__result || faction == null || faction.IsPlayer)
                 return __result;
 
