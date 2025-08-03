@@ -62,7 +62,7 @@ namespace RelationBasedTrading
         public static bool Postfix(bool __result, ThingDef td, TraderKindDef __instance)
         {
             Faction faction = FactionUtility.DefaultFactionFrom(__instance.faction);
-            Log.Message("Faction is: " + (faction != null ?  faction.def.defName : "Null"));
+            //Log.Message("Faction is: " + (faction != null ?  faction.def.defName : "Null"));
             if (!__result || faction == null || faction.IsPlayer)
                 return __result;
 
